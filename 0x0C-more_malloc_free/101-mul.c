@@ -2,33 +2,76 @@
 #include <stdlib.h>
 #include <stdio.h>
 /**
- * main - multiplies two positive numbers
- * @argc: number of arguments
- * @argv: array of arguments
- * Return: int
+ * _puts - prints a string, followed by a new line
+ * @str: pointer to the string to print
+ * Return: void
  */
-int main(int argc, char *argv[])
+void _puts(char *str)
 {
-	unsigned long mul;
-	int p, q;
+	int i = 0;
+
+	while (str[i])
+	{
+		_putchar(str[i]);
+		i++;
+	}
+}
+/**
+ * _atoi - convert a string to an integer
+ * @s: char type string
+ * Return: integer converted
+ */
+int _atoi(const char *s)
+{
+	int sign = 1;
+	unsigned long int resp = 0, fn, i;
+
+	for (fn = 0; !(s[fn] >= 48 && s[fn] <= 57); fn++)
+	{
+		if (s[fn] == '-')
+		{
+			sign *= -1;
+		}
+	}
+	for (i = fn; s[i] >= 48 && s[i] <= 57; i++)
+	{
+		resp *= 10;
+		resp += (s[i] - 48);
+	}
+	return (sign * resp);
+}
+/**
+ * print_int - prints an integer
+ * @n: int
+ * Return: 0
+ */
+void print_int(unsigned long int n)
+{
+	unsigned long int d = 1, i, resp;
+
+	for (i = 0; n / d > 9; i++, d *= 10)
+	for (; d >= 1; n %= d, d /= 10)
+	{
+		resp = n / d;
+		_putchar('0' + resp);
+	}
+}
+/**
+ * main - print the result of the multiplication, followed by a new line
+ * @argc: int
+ * @argv: list
+ * Return: 0
+ */
+int main(int argc, char const *argv[])
+{
+	(void)argc;
 
 	if (argc != 3)
 	{
-		printf("Error\n");
+		_puts("Error ");
 		exit(98);
 	}
-	for (p = 1; p < argc; p++)
-	{
-		for (q = 0; argv[p][q] != '\0'; q++)
-		{
-			if (argv[p][q] > 57 || argv[p][q] < 48)
-			{
-				printf("Error\n");
-				exit(98);
-			}
-		}
-	}
-	mul = atol(argv[1]) * atol(argv[2]);
-	printf("%lu\n", mul);
+	print_int(_atoi(argv[1]) * _atoi(argv[2]));
+	_putchar('\n');
 	return (0);
 }
