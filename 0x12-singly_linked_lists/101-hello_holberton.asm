@@ -6,4 +6,4 @@ xor eax, eax
 mov eax, 0
 call printf
 ret
-msg: db "Hello, Holberton", 0xa, 0
+msg: db 'Hello, Holberton', 0xa, 0
