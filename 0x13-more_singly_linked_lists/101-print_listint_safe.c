@@ -63,7 +63,7 @@ size_t print_listint_safe(const listint_t *head)
 	{
 		for (i = 0; i < nodes; i++)
 		{
-			printf("[%p} %d\n", (void *)head, head->n);
+			printf("[%p] %d\n", (void *)head, head->n);
 			head = head->next;
 		}
 		printf("-> [%p] %d\n", (void *)head, head->n);
