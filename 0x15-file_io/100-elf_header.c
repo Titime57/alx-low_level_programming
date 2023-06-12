@@ -20,6 +20,26 @@ void print_magic(Elf64_Ehdr h)
  */
 void print_class(Elf64_Ehdr h)
 {
-	printf("  Class:                           ");
+	printf("  Class:				");
 	switch (h.e_ident[EI_CLASS])
 	{
+		case ELFCLASS64:
+			printf("ELF64");
+		break;
+		case ELFCLASS32:
+			printf("ELF32");
+		break;
+		case ELCLASSNONE:
+			printf("none");
+		break;
+	}
+	printf("\n");
+}
+/**
+* print_data - prints ELF data
+* @h: the ELF header struct
+*/
+void print_data - (Elf64_Ehdr h)
+{
+	printf("  Data:						");
+
