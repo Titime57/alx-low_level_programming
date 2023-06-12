@@ -43,39 +43,39 @@ void close_file(int op)
  */
 int main(int argc, char *argv[])
 {
-	int fr, op, i, j;
+	int from, to, i, j;
 	char *buf;
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_fr file_op\n");
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
 	buf = create_buffer(argv[2]);
-	fr = open(argv[1], O_RDONLY);
-	i = read(fr, buf, 1024);
-	op = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	from = open(argv[1], O_RDONLY);
+	i = read(from, buf, 1024);
+	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	do {
-		if (fr == -1 || i == -1)
+		if (from == -1 || i == -1)
 		{
 			dprintf(STDERR_FILENO,
-					"Error: can't read fr file %s\n", argv[1]);
+					"Error: can't read from file %s\n", argv[1]);
 			free(buf);
 			exit(98);
 		}
-		j = write(op, buf, i);
-		if (op == -1 || j == -1)
+		j = write(to, buf, i);
+		if (to == -1 || j == -1)
 		{
 			dprintf(STDERR_FILENO,
-					"Error: can't write op %s\n", argv[2]);
+					"Error: can't write to %s\n", argv[2]);
 			free(buf);
 			exit(99);
 		}
-		i = read(fr, buf, 1024);
-		op = open(argv[2], O_WRONLY | O_APPEND);
+		i = read(from, buf, 1024);
+		to = open(argv[2], O_WRONLY | O_APPEND);
 	} while (i > 0);
 	free(buf);
-	close_file(fr);
-	close_file(op);
+	close_file(from);
+	close_file(to);
 	return (0);
 }
