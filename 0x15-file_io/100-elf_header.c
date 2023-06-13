@@ -1,5 +1,7 @@
 #include "main.h"
 #include <elf.h>
+#include <stdio.h>
+#include <stdlib.h>
 void print_osabi_more(Elf64_Ehdr h);
 /**
  * print_magic - prints ELF magic bytes
@@ -29,7 +31,7 @@ void print_class(Elf64_Ehdr h)
 		case ELFCLASS32:
 			printf("ELF32");
 		break;
-		case ELCLASSNONE:
+		case ELFCLASSNONE:
 			printf("none");
 		break;
 	}
@@ -138,7 +140,7 @@ void print_osabi_more(Elf64_Ehdr h)
 			printf("ARM");
 			break;
 		default:
-			printf("<unknown: %x>", (h.e_ident[EI_OSABI]);
+			printf("<unknown: %x>", h.e_ident[EI_OSABI]);
 			break;
 	}
 }
@@ -149,7 +151,7 @@ void print_osabi_more(Elf64_Ehdr h)
 void print_abiversion(Elf64_Ehdr h)
 {
 	printf("  ABI Version:				%d\n",
-		h.e_indent[EI_ABIVERSION]);
+		h.e_ident[EI_ABIVERSION]);
 }
 /**
  * print_type - prints the ELF type
@@ -161,7 +163,7 @@ void print_type(Elf64_Ehdr h)
 	int i = 0;
 
 	printf("  Type:					");
-	if (h.e_ident[EI_DATA] == ELFSATA2MSB)
+	if (h.e_ident[EI_DATA] == ELFDATA2MSB)
 		i = 1;
 	switch (p[i])
 	{
@@ -230,15 +232,15 @@ int main(int ac, char **av)
 	ssize_t b;
 
 	if (ac != 2)
-		dprintf(STDERR_FILENO, "Usage: elf_header elf_filename\n")
+		dprintf(STDERR_FILENO, "Usage: elf_header elf_filename\n"),
 			exit(98);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
-		dprintf(STDERR_FILENO, "Can't open file: %s\n", av[1])
+		dprintf(STDERR_FILENO, "Can't open file: %s\n", av[1]),
 			exit(98);
 	b = read(fd, &h, sizeof(h));
 	if (b < 1 || b != sizeof(h))
-		dprintf(STDERR_FILENO, "Can't read from file: %s\n", av[1])
+		dprintf(STDERR_FILENO, "Can't read from file: %s\n", av[1]),
 			exit(98);
 	if (h.e_ident[0] == 0x7f && h.e_ident[1] == 'E' &&
 			h.e_ident[2] == 'L' && h.e_ident[3] == 'F')
@@ -246,7 +248,7 @@ int main(int ac, char **av)
 		printf("ELF Header:\n");
 	}
 	else
-		dprintf(STDERR_FILENO, "Not ELF file: %s\n", av[1])
+		dprintf(STDERR_FILENO, "Not ELF file: %s\n", av[1]),
 			exit(98);
 	print_magic(h);
 	print_class(h);
@@ -257,7 +259,7 @@ int main(int ac, char **av)
 	print_type(h);
 	print_entry(h);
 	if (close(fd))
-		dprintf(STDERR_FILENO, "Error closing file descriptor: %d\n", fd)
+		dprintf(STDERR_FILENO, "Error closing file descriptor: %d\n", fd),
 			exit(98);
 	return (EXIT_SUCCESS);
 }
